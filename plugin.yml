@@ -1,0 +1,5 @@
+name: Mskyblock
+main: mskyblock.Main
+version: "1.0.0"
+author: maru
+api: ["1.0.0"]

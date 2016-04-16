@@ -1,0 +1,17 @@
+m_version: 1
+
+default-language: kor
+
+kor-default-prefix: "[스카이블럭]"
+
+kor-commands-skyblock: "섬"
+kor-commands-move: "이동"
+kor-commands-remove: "삭제"
+kor-commands-share: "공유"
+kor-commands-invite: "초대"
+
+kor-commands-skyblock-description: "섬 관련 명령어"
+kor-commands-skyblock-usage: "/섬 <이동|삭제|공유|초대>"
+
+kor-make-skyblock-success-1: "스카이블럭이 생성되었습니다."
+kor-make-skyblock-success-2: "</섬 이동> 명령어로 섬으로 이동 가능합니다."

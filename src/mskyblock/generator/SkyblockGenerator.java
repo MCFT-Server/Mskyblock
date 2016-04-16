@@ -2,8 +2,13 @@ package mskyblock.generator;
 
 import java.util.Map;
 
+import cn.nukkit.Server;
+import cn.nukkit.block.Block;
+import cn.nukkit.block.BlockSapling;
 import cn.nukkit.level.ChunkManager;
+import cn.nukkit.level.format.generic.BaseFullChunk;
 import cn.nukkit.level.generator.Generator;
+import cn.nukkit.level.generator.object.tree.ObjectTree;
 import cn.nukkit.math.NukkitRandom;
 import cn.nukkit.math.Vector3;
 
@@ -33,37 +38,45 @@ public class SkyblockGenerator extends Generator {
 
 	@Override
 	public void generateChunk(int chunkX, int chunkZ) {
-		
+		if (chunkX == 0 && chunkZ % 20 == 0) {
+			BaseFullChunk chunk = level.getChunk(chunkX, chunkZ);
+			for (int x = 0; x < 16; x++) {
+				for (int z = 0; z < 16; z++) {
+					chunk.setBlock(x, 0, z, Block.BEDROCK);
+					for (int y = 1; y <= 3; y++) {
+						chunk.setBlock(x, y, z, Block.STONE);
+					}
+					chunk.setBlock(x, 4, z, Block.DIRT);
+					chunk.setBlock(x, 5, z, Block.GRASS);
+					ObjectTree.growTree(level, chunkX*16 + 8, 6, chunkZ*16 + 8, random, BlockSapling.OAK);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void populateChunk(int chunkX, int chunkZ) {
-		// TODO 자동 생성된 메소드 스텁
-		
+		//Do not write here anything.
 	}
 
 	@Override
 	public Map<String, Object> getSettings() {
-		// TODO 자동 생성된 메소드 스텁
-		return null;
+		return options;
 	}
 
 	@Override
 	public String getName() {
-		// TODO 자동 생성된 메소드 스텁
-		return null;
+		return "skyblock";
 	}
 
 	@Override
 	public Vector3 getSpawn() {
-		// TODO 자동 생성된 메소드 스텁
-		return null;
+		return new Vector3(0, 7, 1);
 	}
 
 	@Override
 	public ChunkManager getChunkManager() {
-		// TODO 자동 생성된 메소드 스텁
-		return null;
+		return level;
 	}
 
 }
