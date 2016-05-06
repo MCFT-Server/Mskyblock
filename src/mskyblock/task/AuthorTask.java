@@ -13,6 +13,6 @@ public class AuthorTask extends PluginTask<Main> {
 
 	@Override
 	public void onRun(int currentTick) {
-		Server.getInstance().broadcastMessage(TextFormat.DARK_AQUA + "이 서버는 MCFT서버(mcft.ourplan.kr) 의 어드민인 마루님이 만든 Mskyblock 플러그인을 사용중입니다."); 
+		Server.getInstance().broadcastMessage(TextFormat.DARK_AQUA + "이 서버는 MCFT서버의 어드민인 마루님이 만든 Mskyblock 플러그인을 사용중입니다."); 
 	}
 }

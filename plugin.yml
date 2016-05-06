@@ -3,3 +3,15 @@ main: mskyblock.Main
 version: "1.0.0"
 author: maru
 api: ["1.0.0"]
+
+permissions:
+ mskyblock.*:
+  default: true
+  children:
+   mskyblock.commands.*:
+    default: true
+    children:
+     mskyblock.commands.island:
+      default: true
+   mskyblock.remove.other:
+    default: true

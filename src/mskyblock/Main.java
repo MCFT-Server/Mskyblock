@@ -2,9 +2,7 @@ package mskyblock;
 
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
-import cn.nukkit.level.Level;
 import cn.nukkit.level.generator.Generator;
-import cn.nukkit.math.NukkitRandom;
 import cn.nukkit.plugin.PluginBase;
 import mskyblock.generator.SkyblockGenerator;
 import mskyblock.task.AuthorTask;
@@ -20,10 +18,10 @@ public class Main extends PluginBase {
 	
 	@Override
 	public void onEnable() {
+		initSkyblock();
+		
 		listener = new EventListener(this);
 		db = new DataBase(this);
-		
-		initSkyblock();
 		
 		getServer().getPluginManager().registerEvents(listener, this);
 		getServer().getScheduler().scheduleRepeatingTask(new AuthorTask(this), 20*60*3);
@@ -46,6 +44,7 @@ public class Main extends PluginBase {
 		return listener;
 	}
 	public void initSkyblock() {
-		getServer().generateLevel("skyblock", 0, SkyblockGenerator.class);
+		if (!getServer().loadLevel("skyblock"))
+			getServer().generateLevel("skyblock", 0, SkyblockGenerator.class);
 	}
 }

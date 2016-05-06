@@ -2,12 +2,15 @@ package mskyblock;
 
 import java.util.LinkedHashMap;
 
+import com.google.gson.internal.LinkedTreeMap;
+
 import cn.nukkit.Server;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
 import cn.nukkit.command.SimpleCommandMap;
 import cn.nukkit.level.Position;
 import cn.nukkit.utils.Config;
+import cn.nukkit.utils.ConfigSection;
 import cn.nukkit.utils.TextFormat;
 import mskyblock.skyblock.Skyblock;
 
@@ -17,6 +20,7 @@ public class DataBase {
 	public LinkedHashMap<String, Object> skyblockDB, count;
 	public static final int m_version = 1;
 	
+	@SuppressWarnings("unchecked")
 	public DataBase(Main plugin) {
 		this.plugin = plugin;
 		
@@ -26,13 +30,15 @@ public class DataBase {
 		
 		registerCommands();
 		
+		Skyblock.skyblocklist = new LinkedHashMap<String, Skyblock>();
 		Skyblock.plugin = plugin;
 		for (Object v1 : skyblockDB.values()) {
-			String player = (String) ((LinkedHashMap<String, Object>)v1).get("player");
-			LinkedHashMap<String, Object> shares = (LinkedHashMap<String, Object>) ((LinkedHashMap<String, Object>)v1).get("shares");
-			int num = (int) ((LinkedHashMap<String, Object>)v1).get("num");
-			Position spawn = (Position) ((LinkedHashMap<String, Object>)v1).get("spawn");
-			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, num, spawn));
+			String player = (String) ((LinkedTreeMap<String, Object>)v1).get("owner");
+			LinkedTreeMap<String, Object> shares = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1).get("shares");
+			int num = Skyblock.getInt((double)((LinkedTreeMap<String, Object>)v1).get("num"));
+			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1).get("spawn"));
+			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1).get("invites");
+			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn));
 		}
 	}
 	private static Position stringToPos(String str) {
@@ -50,13 +56,14 @@ public class DataBase {
 			messages = new Config(this.plugin.getDataFolder() + "/messages.yml", Config.YAML);
 		}
 	}
+	@SuppressWarnings("serial")
 	public void initDB() {
 		skyblockDB = (LinkedHashMap<String, Object>) (new Config(plugin.getDataFolder() + "/skyblockDB.json", Config.JSON)).getAll();
-		count = (LinkedHashMap<String, Object>) (new Config(plugin.getDataFolder() + "/count.json", Config.JSON, new LinkedHashMap<String, Object>() {
+		count = (LinkedHashMap<String, Object>) (new Config(plugin.getDataFolder() + "/count.json", Config.JSON, new ConfigSection(new LinkedHashMap<String, Object>() {
 			{
 				put("count", 0);
 			}
-		})).getAll();
+		}))).getAll();
 	}
 	public void save() {
 		this.skyblockDB = Skyblock.toHashMap();

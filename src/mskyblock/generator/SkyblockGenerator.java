@@ -2,7 +2,6 @@ package mskyblock.generator;
 
 import java.util.Map;
 
-import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockSapling;
 import cn.nukkit.level.ChunkManager;
