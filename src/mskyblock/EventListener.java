@@ -236,6 +236,7 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
+		if (player.isOp()) return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
 		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
 			return;
@@ -248,6 +249,7 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
+		if (player.isOp()) return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
 		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
 			return;
@@ -260,6 +262,7 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onTouch(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+		if (player.isOp()) return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
 		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
 			return;

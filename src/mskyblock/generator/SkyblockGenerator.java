@@ -47,9 +47,9 @@ public class SkyblockGenerator extends Generator {
 					}
 					chunk.setBlock(x, 4, z, Block.DIRT);
 					chunk.setBlock(x, 5, z, Block.GRASS);
-					ObjectTree.growTree(level, chunkX*16 + 8, 6, chunkZ*16 + 8, random, BlockSapling.OAK);
 				}
 			}
+			ObjectTree.growTree(level, chunkX*16 + 8, 6, chunkZ*16 + 8, random, BlockSapling.OAK);
 		}
 	}
 
