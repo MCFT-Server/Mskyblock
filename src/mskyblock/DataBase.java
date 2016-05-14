@@ -13,6 +13,7 @@ import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
 import cn.nukkit.utils.TextFormat;
 import mskyblock.skyblock.Skyblock;
+import mskyblock.skyblock.exception.DifferentLevelException;
 
 public class DataBase {
 	public Main plugin;
@@ -38,7 +39,11 @@ public class DataBase {
 			int num = Skyblock.getInt((double)((LinkedTreeMap<String, Object>)v1).get("num"));
 			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1).get("spawn"));
 			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1).get("invites");
-			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn));
+			try {
+				Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn));
+			} catch (DifferentLevelException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	private static Position stringToPos(String str) {

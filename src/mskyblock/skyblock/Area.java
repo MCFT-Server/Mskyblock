@@ -1,6 +1,7 @@
 package mskyblock.skyblock;
 
 import cn.nukkit.level.Position;
+import mskyblock.skyblock.exception.DifferentLevelException;
 
 public class Area {
 	private Position startPos, endPos;
@@ -57,13 +58,5 @@ public class Area {
 	}
 	public Position getEndPos() {
 		return endPos;
-	}
-}
-
-@SuppressWarnings("serial")
-class DifferentLevelException extends Exception {
-	@Override
-	public String toString() {
-		return "매개변수로 받은 두 Position 인스턴스의 Level 인스턴스가 다릅니다.";
 	}
 }

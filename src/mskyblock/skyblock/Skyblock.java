@@ -9,13 +9,13 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.level.Position;
 import mskyblock.Main;
+import mskyblock.skyblock.exception.DifferentLevelException;
 
-public class Skyblock {
+public class Skyblock extends Area {
 	private String owner;
 	private LinkedTreeMap<String, Object> shares, invites;
 	private int num;
 	private Position spawn;
-	private Area area;
 
 	public static HashMap<String, Skyblock> skyblocklist;
 	public static Main plugin;
@@ -58,8 +58,12 @@ public class Skyblock {
 		} catch (ClassCastException e) {
 			plugin.getDB().count.put("count", getInt((double)plugin.getDB().count.get("count")) + 1);
 		}
-		Skyblock.skyblocklist.put(player.getName().toLowerCase(), new Skyblock(player.getName().toLowerCase(),
-				new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count") + 1));
+		try {
+			Skyblock.skyblocklist.put(player.getName().toLowerCase(), new Skyblock(player.getName().toLowerCase(),
+					new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count") + 1));
+		} catch (DifferentLevelException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Skyblock getSkyblock(String name) {
@@ -72,7 +76,7 @@ public class Skyblock {
 
 	public static Skyblock getSkyblockByPos(Position pos) {
 		for (Skyblock skyblock : Skyblock.skyblocklist.values()) {
-			if (skyblock.area.isInside(pos)) {
+			if (skyblock.isInside(pos)) {
 				return skyblock;
 			}
 		}
@@ -104,28 +108,22 @@ public class Skyblock {
 		return null;
 	}
 
-	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) {
+	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) throws DifferentLevelException {
 		this(player, shares, new LinkedTreeMap<String, Object>(), num,
 				new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")));
 	}
 
 	public Skyblock(String player, LinkedTreeMap<String, Object> shares, LinkedTreeMap<String, Object> invites, int num,
-			Position spawn) {
+			Position spawn) throws DifferentLevelException {
+			super(new Position(new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getX() - 150, 0, new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() - 150,
+					Server.getInstance().getLevelByName("skyblock")), 
+		new Position(new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() + 150, 0, new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() + 150,
+							Server.getInstance().getLevelByName("skyblock")));
 		this.owner = player;
 		this.shares = shares;
 		this.num = num;
 		this.spawn = spawn;
 		this.invites = invites;
-
-		try {
-			area = new Area(
-					new Position(getOriginalSpawn().getX() - 150, 0, getOriginalSpawn().getZ() - 150,
-							Server.getInstance().getLevelByName("skyblock")),
-					new Position(getOriginalSpawn().getZ() + 150, 0, getOriginalSpawn().getZ() + 150,
-							Server.getInstance().getLevelByName("skyblock")));
-		} catch (DifferentLevelException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void remove() {
@@ -154,10 +152,6 @@ public class Skyblock {
 
 	public Position getSpawn() {
 		return spawn;
-	}
-
-	public Area getArea() {
-		return area;
 	}
 
 	public void setSpawn(Position pos) {

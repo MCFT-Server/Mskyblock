@@ -151,7 +151,7 @@ public class EventListener implements Listener {
 					return true;
 				}
 				Skyblock skyblock = Skyblock.getSkyblock(sender.getName());
-				if (!skyblock.getArea().isInside((Player)sender)) {
+				if (!skyblock.isInside((Player)sender)) {
 					getDB().alert(sender, getDB().get("not-your-skyblock"));
 					return true;
 				}
