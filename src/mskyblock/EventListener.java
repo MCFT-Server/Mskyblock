@@ -7,7 +7,7 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
-import cn.nukkit.event.TextContainer;
+import cn.nukkit.event.TranslationContainer;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.level.ChunkLoadEvent;
@@ -37,6 +37,7 @@ public class EventListener implements Listener {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		
 		if (command.getName().toLowerCase().equals(getDB().get("commands-skyblock"))) {
 			if (args.length < 1) {
 				if (!(sender instanceof Player)) {
@@ -61,7 +62,7 @@ public class EventListener implements Listener {
 			}
 			if (args[0].toLowerCase().equals(getDB().get("commands-move"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				if (args.length < 2) {
@@ -103,7 +104,7 @@ public class EventListener implements Listener {
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-share"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player)sender)) {
@@ -127,7 +128,7 @@ public class EventListener implements Listener {
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-invite"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player)sender)) {
@@ -143,7 +144,7 @@ public class EventListener implements Listener {
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-spawn"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player)sender)) {
@@ -160,7 +161,7 @@ public class EventListener implements Listener {
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-expulsion"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player)sender)) {
@@ -181,7 +182,7 @@ public class EventListener implements Listener {
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-list"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player)sender)) {
@@ -214,7 +215,7 @@ public class EventListener implements Listener {
 				}
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-exit"))) {
 				if (!(sender instanceof Player)) {
-					sender.sendMessage(new TextContainer(TextFormat.RED + "%commands.generic.ingame"));
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
 				Skyblock skyblock = Skyblock.getShareSkyblock((Player) sender);

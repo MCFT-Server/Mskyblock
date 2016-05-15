@@ -24,7 +24,6 @@ public class Main extends PluginBase {
 		db = new DataBase(this);
 		
 		getServer().getPluginManager().registerEvents(listener, this);
-		getServer().getScheduler().scheduleRepeatingTask(new AuthorTask(this), 20*60*3);
 	}
 	
 	@Override
