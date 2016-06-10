@@ -1,12 +1,12 @@
 name: Mskyblock
 main: mskyblock.Main
-version: "1.0.0"
+version: "1.0.1"
 author: maru
 api: ["1.0.0"]
 
 permissions:
  mskyblock.*:
-  default: true
+  default: OP
   children:
    mskyblock.commands.*:
     default: true
@@ -14,4 +14,4 @@ permissions:
      mskyblock.commands.island:
       default: true
    mskyblock.remove.other:
-    default: true
+    default: OP

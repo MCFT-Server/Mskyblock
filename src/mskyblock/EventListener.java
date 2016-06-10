@@ -37,7 +37,6 @@ public class EventListener implements Listener {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		
 		if (command.getName().toLowerCase().equals(getDB().get("commands-skyblock"))) {
 			if (args.length < 1) {
 				if (!(sender instanceof Player)) {
@@ -96,6 +95,10 @@ public class EventListener implements Listener {
 					return true;
 				}
 				if (!Skyblock.hasSkyblock(args[1])) {
+					if (! sender.hasPermission("mskyblock.remove.other")) {
+						sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.permission"));
+						return true;
+					}
 					getDB().alert(sender, getDB().get("player-dont-have-skyblock").replace("%player", args[1]));
 					return true;
 				}
