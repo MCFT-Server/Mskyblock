@@ -20,6 +20,7 @@ public class DataBase {
 	public Config messages, config;
 	public LinkedHashMap<String, Object> skyblockDB, count;
 	public static final int m_version = 1;
+	private static DataBase instance;
 	
 	@SuppressWarnings("unchecked")
 	public DataBase(Main plugin) {
@@ -45,6 +46,12 @@ public class DataBase {
 				e.printStackTrace();
 			}
 		}
+		if (instance == null) {
+			instance = this;
+		}
+	}
+	public static DataBase getInstance() {
+		return instance;
 	}
 	private static Position stringToPos(String str) {
 		String[] args = str.split(":");
@@ -69,6 +76,11 @@ public class DataBase {
 				put("count", 0);
 			}
 		}))).getAll();
+		config = new Config(plugin.getDataFolder() + "/config.yml", Config.YAML, new ConfigSection() {
+			{
+				put("create-sponge", false);
+			}
+		});
 	}
 	public void save() {
 		this.skyblockDB = Skyblock.toHashMap();

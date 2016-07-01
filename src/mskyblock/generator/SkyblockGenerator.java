@@ -10,6 +10,7 @@ import cn.nukkit.level.generator.Generator;
 import cn.nukkit.level.generator.object.tree.ObjectTree;
 import cn.nukkit.math.NukkitRandom;
 import cn.nukkit.math.Vector3;
+import mskyblock.DataBase;
 
 public class SkyblockGenerator extends Generator {
 	
@@ -50,6 +51,10 @@ public class SkyblockGenerator extends Generator {
 				}
 			}
 			ObjectTree.growTree(level, chunkX*16 + 8, 6, chunkZ*16 + 8, random, BlockSapling.OAK);
+			if (DataBase.getInstance().config.getBoolean("create-sponge", false)) {
+				chunk.setBlock(3, 6, 3, Block.SPONGE);
+				chunk.setBlock(3, 7, 3, Block.STONE);
+			}
 		}
 	}
 
