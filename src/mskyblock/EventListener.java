@@ -3,6 +3,7 @@ package mskyblock;
 import com.google.gson.internal.LinkedTreeMap;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
@@ -43,7 +44,7 @@ public class EventListener implements Listener {
 					getDB().alert(sender, getDB().get("commands-skyblock-usage"));
 					return true;
 				}
-				if (Skyblock.hasSharedSkyblock((Player) sender)) {
+				if (Skyblock.hasSharedSkyblock((Player) sender) && getDB().config.getBoolean("only-one-skyblock")) {
 					getDB().alert(sender, getDB().get("already-shared"));
 					getDB().alert(sender, getDB().get("commands-skyblock-usage"));
 					Skyblock skyblock = Skyblock.getShareSkyblock((Player) sender);
@@ -65,15 +66,23 @@ public class EventListener implements Listener {
 					return true;
 				}
 				if (args.length < 2) {
-					getDB().alert(sender, getDB().get("commands-move-usage"));
+					Skyblock skyblock = Skyblock.getSkyblock(sender.getName());
+					if (skyblock == null) {
+						getDB().alert(sender, getDB().get("commands-move-usage"));
+						return true;
+					}
+					((Player) sender).teleport(skyblock.getSpawn());
+					getDB().message(sender, getDB().get("move-success").replace("%player", sender.getName()));
 					return true;
 				}
-				Skyblock sblock = Skyblock.getSkyblock(args[1]);
+				Player player = Server.getInstance().getPlayer(args[1]);
+				String target = (player == null) ? args[1] : player.getName();
+				Skyblock sblock = Skyblock.getSkyblock(target);
 				if (sblock == null) {
-					getDB().alert(sender, getDB().get("player-dont-have-skyblock").replace("%player", args[1]));
+					getDB().alert(sender, getDB().get("player-dont-have-skyblock").replace("%player", target));
 					return true;
 				}
-				if (!sblock.isOwner((Player)sender) && !sblock.isShare((Player)sender) && !sblock.isInvited((Player)sender)) {
+				if (!sblock.isOwner((Player)sender) && !sblock.isShare((Player)sender) && !sblock.isInvited((Player)sender) && !sender.isOp() && !sblock.isInviteAll()) {
 					getDB().alert(sender, getDB().get("not-invited"));
 					return true;
 				}
@@ -228,6 +237,25 @@ public class EventListener implements Listener {
 				}
 				skyblock.expulsion((Player) sender);
 				getDB().message(sender, getDB().get("exit-skyblock"));
+				return true;
+			} else if (args[0].toLowerCase().equals(getDB().get("commands-inviteall"))) {
+				if (!(sender instanceof Player)) {
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
+					return true;
+				}
+				Skyblock skyblock = Skyblock.getSkyblock(sender.getName());
+				if (skyblock == null) {
+					getDB().alert(sender, getDB().get("dont-have-skyblock"));
+					return true;
+				}
+				
+				if (skyblock.isInviteAll()) {
+					skyblock.setInviteAll(false);
+					getDB().message(sender, getDB().get("cancel-invite-all"));
+				} else {
+					skyblock.setInviteAll(true);
+					getDB().message(sender, getDB().get("invite-all"));
+				}
 				return true;
 			} else {
 				getDB().alert(sender, getDB().get("commands-skyblock-usage"));

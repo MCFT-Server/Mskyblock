@@ -13,13 +13,12 @@ import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
 import cn.nukkit.utils.TextFormat;
 import mskyblock.skyblock.Skyblock;
-import mskyblock.skyblock.exception.DifferentLevelException;
 
 public class DataBase {
 	public Main plugin;
 	public Config messages, config;
 	public LinkedHashMap<String, Object> skyblockDB, count;
-	public static final int m_version = 1;
+	public static final int m_version = 2;
 	private static DataBase instance;
 	
 	@SuppressWarnings("unchecked")
@@ -40,11 +39,8 @@ public class DataBase {
 			int num = Skyblock.getInt((double)((LinkedTreeMap<String, Object>)v1).get("num"));
 			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1).get("spawn"));
 			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1).get("invites");
-			try {
-				Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn));
-			} catch (DifferentLevelException e) {
-				e.printStackTrace();
-			}
+			boolean isInviteAll = (boolean) ((LinkedTreeMap<String, Object>)v1).getOrDefault("isInviteAll", false);
+			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn, isInviteAll));
 		}
 		if (instance == null) {
 			instance = this;
@@ -79,8 +75,12 @@ public class DataBase {
 		config = new Config(plugin.getDataFolder() + "/config.yml", Config.YAML, new ConfigSection() {
 			{
 				put("create-sponge", false);
+				put("only-one-skyblock", false);
 			}
 		});
+		if (config.get("only-one-skyblock") == null) {
+			config.save(true);
+		}
 	}
 	public void save() {
 		this.skyblockDB = Skyblock.toHashMap();

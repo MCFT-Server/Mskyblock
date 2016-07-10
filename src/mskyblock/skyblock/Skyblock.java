@@ -16,6 +16,7 @@ public class Skyblock extends Area {
 	private LinkedTreeMap<String, Object> shares, invites;
 	private int num;
 	private Position spawn;
+	private boolean inviteAll;
 
 	public static HashMap<String, Skyblock> skyblocklist;
 	public static Main plugin;
@@ -108,13 +109,17 @@ public class Skyblock extends Area {
 		return null;
 	}
 
-	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) throws DifferentLevelException {
+	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) {
 		this(player, shares, new LinkedTreeMap<String, Object>(), num,
-				new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")));
+				new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")), true);
+	}
+	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num, boolean isInviteAll) {
+		this(player, shares, new LinkedTreeMap<String, Object>(), num,
+				new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")), isInviteAll);
 	}
 
 	public Skyblock(String player, LinkedTreeMap<String, Object> shares, LinkedTreeMap<String, Object> invites, int num,
-			Position spawn) throws DifferentLevelException {
+			Position spawn, boolean isInviteAll) {
 			super(new Position(new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getX() - 150, 0, new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() - 150,
 					Server.getInstance().getLevelByName("skyblock")), 
 		new Position(new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() + 150, 0, new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() + 150,
@@ -200,5 +205,13 @@ public class Skyblock extends Area {
 	public void expulsion(String name) {
 		shares.remove(name.toLowerCase());
 		invites.remove(name.toLowerCase());
+	}
+	
+	public boolean isInviteAll() {
+		return inviteAll;
+	}
+	
+	public void setInviteAll(boolean bool) {
+		inviteAll = bool;
 	}
 }

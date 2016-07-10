@@ -1,4 +1,4 @@
-m_version: 1
+m_version: 2
 
 default-language: kor
 
@@ -9,13 +9,14 @@ kor-commands-move: "이동"
 kor-commands-remove: "삭제"
 kor-commands-share: "공유"
 kor-commands-invite: "초대"
+kor-commands-inviteall: "전체초대"
 kor-commands-spawn: "스폰"
 kor-commands-expulsion: "추방"
 kor-commands-list: "목록"
 kor-commands-exit: "퇴장"
 
 kor-commands-skyblock-description: "섬 관련 명령어"
-kor-commands-skyblock-usage: "/섬 <이동|삭제|공유|초대|스폰|추방|목록|퇴장>"
+kor-commands-skyblock-usage: "/섬 <이동|삭제|공유|초대|스폰|추방|목록|퇴장|전체초대>"
 kor-commands-move-usage: "/섬 이동 <플레이어>"
 kor-commands-remove-usage: "/섬 삭제 [플레이어]"
 kor-commands-share-usage: "/섬 공유 <플레이어>"
@@ -35,6 +36,8 @@ kor-expulsion-player: "%player를 스카이블럭에서 추방했습니다."
 kor-exit-skyblock: "모든 공유받은 스카이블럭에서 나왔습니다."
 kor-sharelist: "공유목록: "
 kor-invitelist: "초대목록: "
+kor-invite-all: "모든 플레이어가 섬에 올 수 있게 변경했습니다."
+kor-cancel-invite-all: "초대받은 플레이어만 섬에 올 수 있게 변경했습니다."
 
 kor-dont-have-skyblock: "당신은 스카이블럭을 보유하고 있지 않습니다."
 kor-player-dont-have-skyblock: "%player는 스카이블럭을 보유하고 있지 않습니다."
