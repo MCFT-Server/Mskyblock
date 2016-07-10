@@ -19,15 +19,15 @@ import mskyblock.skyblock.Skyblock;
 
 public class EventListener implements Listener {
 	private Main plugin;
-	
+
 	public EventListener(Main plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	public DataBase getDB() {
 		return plugin.getDB();
 	}
-	
+
 	@EventHandler
 	public void onChunkLoad(ChunkLoadEvent event) {
 		for (int x = 0; x < 16; x++) {
@@ -36,7 +36,7 @@ public class EventListener implements Listener {
 			}
 		}
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (command.getName().toLowerCase().equals(getDB().get("commands-skyblock"))) {
 			if (args.length < 1) {
@@ -82,11 +82,12 @@ public class EventListener implements Listener {
 					getDB().alert(sender, getDB().get("player-dont-have-skyblock").replace("%player", target));
 					return true;
 				}
-				if (!sblock.isOwner((Player)sender) && !sblock.isShare((Player)sender) && !sblock.isInvited((Player)sender) && !sender.isOp() && !sblock.isInviteAll()) {
+				if (!sblock.isOwner((Player) sender) && !sblock.isShare((Player) sender)
+						&& !sblock.isInvited((Player) sender) && !sender.isOp() && !sblock.isInviteAll()) {
 					getDB().alert(sender, getDB().get("not-invited"));
 					return true;
 				}
-				((Player)sender).teleport(sblock.getSpawn());
+				((Player) sender).teleport(sblock.getSpawn());
 				getDB().message(sender, getDB().get("move-success").replace("%player", args[1]));
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-remove"))) {
@@ -95,7 +96,7 @@ public class EventListener implements Listener {
 						getDB().alert(sender, getDB().get("commands-remove-usage"));
 						return true;
 					}
-					if (!Skyblock.hasSkyblock((Player)sender)) {
+					if (!Skyblock.hasSkyblock((Player) sender)) {
 						getDB().alert(sender, getDB().get("dont-have-skyblock"));
 						return true;
 					}
@@ -103,7 +104,7 @@ public class EventListener implements Listener {
 					getDB().message(sender, getDB().get("remove-success"));
 					return true;
 				}
-				if (! sender.hasPermission("mskyblock.remove.other")) {
+				if (!sender.hasPermission("mskyblock.remove.other")) {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.permission"));
 					return true;
 				}
@@ -119,7 +120,7 @@ public class EventListener implements Listener {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
-				if (!Skyblock.hasSkyblock((Player)sender)) {
+				if (!Skyblock.hasSkyblock((Player) sender)) {
 					getDB().alert(sender, getDB().get("dont-have-skyblock"));
 					return true;
 				}
@@ -127,13 +128,15 @@ public class EventListener implements Listener {
 					getDB().alert(sender, getDB().get("commands-share-usage"));
 					return true;
 				}
-				if (Skyblock.hasSkyblock(args[1])) {
-					getDB().alert(sender, getDB().get("already-have-skyblock"));
-					return true;
-				}
-				if (Skyblock.hasSharedSkyblock(args[1])) {
-					getDB().alert(sender, getDB().get("already-shared-skyblock"));
-					return true;
+				if (getDB().config.getBoolean("only-one-skyblock")) {
+					if (Skyblock.hasSkyblock(args[1])) {
+						getDB().alert(sender, getDB().get("already-have-skyblock"));
+						return true;
+					}
+					if (Skyblock.hasSharedSkyblock(args[1])) {
+						getDB().alert(sender, getDB().get("already-shared-skyblock"));
+						return true;
+					}
 				}
 				Skyblock.getSkyblock(sender.getName()).shareSkyblock(args[1]);
 				getDB().message(sender, getDB().get("share-skyblock").replace("%player", args[1]));
@@ -143,7 +146,7 @@ public class EventListener implements Listener {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
-				if (!Skyblock.hasSkyblock((Player)sender)) {
+				if (!Skyblock.hasSkyblock((Player) sender)) {
 					getDB().alert(sender, getDB().get("dont-have-skyblock"));
 					return true;
 				}
@@ -159,16 +162,17 @@ public class EventListener implements Listener {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
-				if (!Skyblock.hasSkyblock((Player)sender)) {
+				if (!Skyblock.hasSkyblock((Player) sender)) {
 					getDB().alert(sender, getDB().get("dont-have-skyblock"));
 					return true;
 				}
 				Skyblock skyblock = Skyblock.getSkyblock(sender.getName());
-				if (!skyblock.isInside((Player)sender)) {
+				if (!skyblock.isInside((Player) sender)) {
 					getDB().alert(sender, getDB().get("not-your-skyblock"));
 					return true;
 				}
-				skyblock.setSpawn(new Position(((Player) sender).getX(), ((Player) sender).getY(), ((Player) sender).getZ(), ((Player) sender).getLevel()));
+				skyblock.setSpawn(new Position(((Player) sender).getX(), ((Player) sender).getY(),
+						((Player) sender).getZ(), ((Player) sender).getLevel()));
 				getDB().message(sender, getDB().get("set-spawn"));
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-expulsion"))) {
@@ -176,7 +180,7 @@ public class EventListener implements Listener {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
-				if (!Skyblock.hasSkyblock((Player)sender)) {
+				if (!Skyblock.hasSkyblock((Player) sender)) {
 					getDB().alert(sender, getDB().get("dont-have-skyblock"));
 					return true;
 				}
@@ -197,7 +201,7 @@ public class EventListener implements Listener {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
-				if (!Skyblock.hasSkyblock((Player)sender)) {
+				if (!Skyblock.hasSkyblock((Player) sender)) {
 					getDB().alert(sender, getDB().get("dont-have-skyblock"));
 					return true;
 				}
@@ -248,7 +252,7 @@ public class EventListener implements Listener {
 					getDB().alert(sender, getDB().get("dont-have-skyblock"));
 					return true;
 				}
-				
+
 				if (skyblock.isInviteAll()) {
 					skyblock.setInviteAll(false);
 					getDB().message(sender, getDB().get("cancel-invite-all"));
@@ -264,11 +268,12 @@ public class EventListener implements Listener {
 		}
 		return true;
 	}
-	
+
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
-		if (player.isOp()) return;
+		if (player.isOp())
+			return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
 		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
 			return;
@@ -277,11 +282,12 @@ public class EventListener implements Listener {
 			event.setCancelled();
 		}
 	}
-	
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		if (player.isOp()) return;
+		if (player.isOp())
+			return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
 		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
 			return;
@@ -290,11 +296,12 @@ public class EventListener implements Listener {
 			event.setCancelled();
 		}
 	}
-	
+
 	@EventHandler
 	public void onTouch(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		if (player.isOp()) return;
+		if (player.isOp())
+			return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
 		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
 			return;
@@ -304,4 +311,3 @@ public class EventListener implements Listener {
 		}
 	}
 }
-
