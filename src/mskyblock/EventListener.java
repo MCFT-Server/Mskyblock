@@ -90,7 +90,7 @@ public class EventListener implements Listener {
 					return true;
 				}
 				((Player) sender).teleport(sblock.getSpawn());
-				getDB().message(sender, getDB().get("move-success").replace("%player", args[1]));
+				getDB().message(sender, getDB().get("move-success").replace("%player", target));
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-remove"))) {
 				if (args.length < 2) {
