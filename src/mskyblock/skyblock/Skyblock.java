@@ -40,6 +40,7 @@ public class Skyblock extends Area {
 					put("shares", skyblock.shares);
 					put("invites", skyblock.invites);
 					put("spawn", posToString(skyblock.spawn));
+					put("inviteAll", skyblock.inviteAll);
 				}
 			});
 		}
