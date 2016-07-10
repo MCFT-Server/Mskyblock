@@ -1,7 +1,9 @@
 package mskyblock.skyblock;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -97,17 +99,18 @@ public class Skyblock extends Area {
 		return false;
 	}
 	
-	public static Skyblock getShareSkyblock(Player player) {
-		return getShareSkyblock(player.getName());
+	public static List<Skyblock> getShareSkyblockList(Player player) {
+		return getShareSkyblockList(player.getName());
 	}
-	public static Skyblock getShareSkyblock(String name) {
+	public static List<Skyblock> getShareSkyblockList(String name) {
 		String lowername = name.toLowerCase();
+		ArrayList<Skyblock> list = new ArrayList<>();
 		for (Skyblock skyblock : Skyblock.skyblocklist.values()) {
 			if (skyblock.isShare(lowername)) {
-				return skyblock;
+				list.add(skyblock);
 			}
 		}
-		return null;
+		return list;
 	}
 
 	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) {

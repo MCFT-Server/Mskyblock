@@ -1,5 +1,7 @@
 package mskyblock;
 
+import java.util.List;
+
 import com.google.gson.internal.LinkedTreeMap;
 
 import cn.nukkit.Player;
@@ -47,8 +49,8 @@ public class EventListener implements Listener {
 				if (Skyblock.hasSharedSkyblock((Player) sender) && getDB().config.getBoolean("only-one-skyblock")) {
 					getDB().alert(sender, getDB().get("already-shared"));
 					getDB().alert(sender, getDB().get("commands-skyblock-usage"));
-					Skyblock skyblock = Skyblock.getShareSkyblock((Player) sender);
-					getDB().message(sender, getDB().get("with-player").replace("%player", skyblock.getOwner()));
+					List<Skyblock> list = Skyblock.getShareSkyblockList((Player) sender);
+					list.forEach((skyblock) -> getDB().message(sender, getDB().get("with-player").replace("%player", skyblock.getOwner())));
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player) sender)) {
@@ -234,12 +236,12 @@ public class EventListener implements Listener {
 					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
 					return true;
 				}
-				Skyblock skyblock = Skyblock.getShareSkyblock((Player) sender);
-				if (skyblock == null) {
+				List<Skyblock> list = Skyblock.getShareSkyblockList((Player) sender);
+				if (list.isEmpty()) {
 					getDB().alert(sender, getDB().get("you-dont-have-share"));
 					return true;
 				}
-				skyblock.expulsion((Player) sender);
+				list.forEach((skyblock) -> skyblock.expulsion((Player) sender));
 				getDB().message(sender, getDB().get("exit-skyblock"));
 				return true;
 			} else if (args[0].toLowerCase().equals(getDB().get("commands-inviteall"))) {
