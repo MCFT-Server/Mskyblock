@@ -9,8 +9,10 @@ import com.google.gson.internal.LinkedTreeMap;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
+import cn.nukkit.level.Level;
 import cn.nukkit.level.Position;
 import mskyblock.Main;
+import mskyblock.generator.SkyblockGenerator;
 import mskyblock.skyblock.exception.DifferentLevelException;
 
 public class Skyblock extends Area {
@@ -37,7 +39,6 @@ public class Skyblock extends Area {
 		for (Skyblock skyblock : Skyblock.skyblocklist.values()) {
 			map.put(skyblock.owner, new LinkedHashMap<String, Object>() {
 				{
-					put("owner", skyblock.owner);
 					put("num", skyblock.num);
 					put("shares", skyblock.shares);
 					put("invites", skyblock.invites);
@@ -50,24 +51,22 @@ public class Skyblock extends Area {
 	}
 
 	private static String posToString(Position pos) {
-		return getInt(pos.getX())+ ":" + getInt(pos.getY()) + ":" + getInt(pos.getZ()) + ":" + pos.getLevel().getFolderName();
+		return getInt(pos.getX()) + ":" + getInt(pos.getY()) + ":" + getInt(pos.getZ()) + ":" + pos.getLevel().getFolderName();
 	}
+
 	public static int getInt(double d) {
 		Double f = new Double(d);
 		return f.intValue();
 	}
+
 	public static void makeSkyblock(Player player) {
 		try {
-			plugin.getDB().count.put("count", (int)plugin.getDB().count.get("count") + 1);
+			plugin.getDB().count.put("count", (int) plugin.getDB().count.get("count") + 1);
 		} catch (ClassCastException e) {
-			plugin.getDB().count.put("count", getInt((double)plugin.getDB().count.get("count")) + 1);
+			plugin.getDB().count.put("count", getInt((double) plugin.getDB().count.get("count")) + 1);
 		}
-		try {
-			Skyblock.skyblocklist.put(player.getName().toLowerCase(), new Skyblock(player.getName().toLowerCase(),
-					new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count") + 1));
-		} catch (DifferentLevelException e) {
-			e.printStackTrace();
-		}
+		Skyblock.skyblocklist.put(player.getName().toLowerCase(), new Skyblock(player.getName().toLowerCase(), 
+				new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count")));
 	}
 
 	public static Skyblock getSkyblock(String name) {
@@ -86,9 +85,11 @@ public class Skyblock extends Area {
 		}
 		return null;
 	}
+
 	public static boolean hasSharedSkyblock(Player player) {
 		return hasSharedSkyblock(player.getName());
 	}
+
 	public static boolean hasSharedSkyblock(String name) {
 		String lowername = name.toLowerCase();
 		for (Skyblock skyblock : skyblocklist.values()) {
@@ -98,10 +99,11 @@ public class Skyblock extends Area {
 		}
 		return false;
 	}
-	
+
 	public static List<Skyblock> getShareSkyblockList(Player player) {
 		return getShareSkyblockList(player.getName());
 	}
+
 	public static List<Skyblock> getShareSkyblockList(String name) {
 		String lowername = name.toLowerCase();
 		ArrayList<Skyblock> list = new ArrayList<>();
@@ -114,20 +116,15 @@ public class Skyblock extends Area {
 	}
 
 	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) {
-		this(player, shares, new LinkedTreeMap<String, Object>(), num,
-				new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")), true);
-	}
-	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num, boolean isInviteAll) {
-		this(player, shares, new LinkedTreeMap<String, Object>(), num,
-				new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")), isInviteAll);
+		this(player, shares, new LinkedTreeMap<String, Object>(), num, getOriginalSpawn(num), true);
 	}
 
-	public Skyblock(String player, LinkedTreeMap<String, Object> shares, LinkedTreeMap<String, Object> invites, int num,
-			Position spawn, boolean isInviteAll) {
-			super(new Position(new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getX() - 150, 0, new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() - 150,
-					Server.getInstance().getLevelByName("skyblock")), 
-		new Position(new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() + 150, 0, new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock")).getZ() + 150,
-							Server.getInstance().getLevelByName("skyblock")));
+	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num, boolean isInviteAll) {
+		this(player, shares, new LinkedTreeMap<String, Object>(), num, getOriginalSpawn(num), isInviteAll);
+	}
+
+	public Skyblock(String player, LinkedTreeMap<String, Object> shares, LinkedTreeMap<String, Object> invites, int num, Position spawn, boolean isInviteAll) {
+		super(getOriginalSpawn(num).add(-75, 0, -75), getOriginalSpawn(num).add(+75, 0, +75));
 		this.owner = player;
 		this.shares = shares;
 		this.num = num;
@@ -146,7 +143,7 @@ public class Skyblock extends Area {
 	public LinkedTreeMap<String, Object> getShares() {
 		return shares;
 	}
-	
+
 	public LinkedTreeMap<String, Object> getInvites() {
 		return invites;
 	}
@@ -156,7 +153,33 @@ public class Skyblock extends Area {
 	}
 
 	public Position getOriginalSpawn() {
-		return new Position(8, 13, (num * 20 - 20) * 16 + 8, Server.getInstance().getLevelByName("skyblock"));
+		int skyBlockLevelNum = num / 1000000;
+		int x = (((int) ((num % 1000000) / 1000)) * 20 - 20) * 16 + 8;
+		int z = (((int) ((num % 1000000) % 1000)) * 20 - 20) * 16 + 8;
+		Level level = Server.getInstance().getLevelByName("skyblock" + skyBlockLevelNum);
+		if (level == null) {
+			if (!Server.getInstance().loadLevel("skyblock" + skyBlockLevelNum)) {
+				Server.getInstance().generateLevel("skyblock" + skyBlockLevelNum, 0, SkyblockGenerator.class);
+			}
+			level = Server.getInstance().getLevelByName("skyblock" + skyBlockLevelNum);
+		}
+
+		return new Position(x, 13, z, level);
+	}
+
+	private static Position getOriginalSpawn(int num) {
+		int skyBlockLevelNum = num / 1000000;
+		int x = (((int) ((num % 1000000) / 1000) + 1) * 20 - 20) * 16 + 8;
+		int z = (((int) ((num % 1000000) % 1000)) * 20 - 20) * 16 + 8;
+		Level level = Server.getInstance().getLevelByName("skyblock" + skyBlockLevelNum);
+		if (level == null) {
+			if (!Server.getInstance().loadLevel("skyblock" + skyBlockLevelNum)) {
+				Server.getInstance().generateLevel("skyblock" + skyBlockLevelNum, 0, SkyblockGenerator.class);
+			}
+			level = Server.getInstance().getLevelByName("skyblock" + skyBlockLevelNum);
+		}
+
+		return new Position(x, 13, z, level);
 	}
 
 	public Position getSpawn() {
@@ -210,11 +233,11 @@ public class Skyblock extends Area {
 		shares.remove(name.toLowerCase());
 		invites.remove(name.toLowerCase());
 	}
-	
+
 	public boolean isInviteAll() {
 		return inviteAll;
 	}
-	
+
 	public void setInviteAll(boolean bool) {
 		inviteAll = bool;
 	}

@@ -19,40 +19,33 @@ public class Area {
 	}
 	
 	public boolean isInside(Position pos) {
-		if (startPos.getX() > endPos.getX()) {
-			if (startPos.getZ() > endPos.getZ()) {
-				if (pos.getX() <= startPos.getX() && pos.getX() >= endPos.getX()) {
-					if (pos.getZ() <= startPos.getZ() && pos.getZ() >= endPos.getZ()) return true;
-					else return false;
-				} else {
-					return false;
-				}
-			} else {
-				if (pos.getX() <= startPos.getX() && pos.getX() >= endPos.getX()) {
-					if (pos.getZ() <= endPos.getZ() && pos.getZ() >= startPos.getZ()) return true;
-					else return false;
-				} else {
-					return false;
-				}
-			}
+		if (isXinside(pos) && isZinside(pos)) {
+			return true;
 		} else {
-			if (startPos.getZ() > endPos.getZ()) {
-				if (pos.getX() >= startPos.getX() && pos.getX() <= endPos.getX()) {
-					if (pos.getZ() <= startPos.getZ() && pos.getZ() >= endPos.getZ()) return true;
-					else return false;
-				} else {
-					return false;
-				}
-			} else {
-				if (pos.getX() >= startPos.getX() && pos.getX() <= endPos.getX()) {
-					if (pos.getZ() <= endPos.getZ() && pos.getZ() >= startPos.getZ()) return true;
-					else return false;
-				} else {
-					return false;
-				}
-			}
+			return false;
 		}
 	}
+	public boolean isXinside(Position pos) {
+		double bigX, smallX;
+		bigX = (startPos.x > endPos.x) ? startPos.x : endPos.x;
+		smallX = (bigX == startPos.x) ? endPos.x : startPos.x;
+		if (pos.x < bigX && pos.x > smallX) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean isZinside(Position pos) {
+		double bigZ, smallZ;
+		bigZ = (startPos.z > endPos.z) ? startPos.z : endPos.z;
+		smallZ = (bigZ == startPos.z) ? endPos.z : startPos.z;
+		if (pos.z < bigZ && pos.z > smallZ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public Position getStartPos() {
 		return startPos;
 	}

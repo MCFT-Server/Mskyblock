@@ -1,11 +1,14 @@
 package mskyblock;
 
+import java.io.File;
+import java.util.Arrays;
+
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.level.generator.Generator;
 import cn.nukkit.plugin.PluginBase;
 import mskyblock.generator.SkyblockGenerator;
-import mskyblock.task.AuthorTask;
 
 public class Main extends PluginBase {
 	private EventListener listener;
@@ -42,8 +45,13 @@ public class Main extends PluginBase {
 	public EventListener getListener() {
 		return listener;
 	}
-	public void initSkyblock() {
-		if (!getServer().loadLevel("skyblock"))
-			getServer().generateLevel("skyblock", 0, SkyblockGenerator.class);
+	
+	private void initSkyblock() {
+		File worldsDirectory = new File(Server.getInstance().getDataPath() + File.separator + "worlds" + File.separator);
+		Arrays.stream(worldsDirectory.list()).forEach(worldName -> {
+			if (worldName.startsWith("skyblock")) {
+				Server.getInstance().loadLevel(worldName);
+			}
+		});
 	}
 }

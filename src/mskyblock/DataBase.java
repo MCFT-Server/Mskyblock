@@ -1,6 +1,7 @@
 package mskyblock;
 
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -33,13 +34,13 @@ public class DataBase {
 		
 		Skyblock.skyblocklist = new LinkedHashMap<String, Skyblock>();
 		Skyblock.plugin = plugin;
-		for (Object v1 : skyblockDB.values()) {
-			String player = (String) ((LinkedTreeMap<String, Object>)v1).get("owner");
-			LinkedTreeMap<String, Object> shares = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1).get("shares");
-			int num = Skyblock.getInt((double)((LinkedTreeMap<String, Object>)v1).get("num"));
-			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1).get("spawn"));
-			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1).get("invites");
-			boolean isInviteAll = (boolean) ((LinkedTreeMap<String, Object>)v1).getOrDefault("isInviteAll", false);
+		for (Entry<String, Object> v1 : skyblockDB.entrySet()) {
+			String player = v1.getKey();
+			LinkedTreeMap<String, Object> shares = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1.getValue()).get("shares");
+			int num = Skyblock.getInt((double)((LinkedTreeMap<String, Object>)v1.getValue()).get("num"));
+			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1.getValue()).get("spawn"));
+			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1.getValue()).get("invites");
+			boolean isInviteAll = (boolean) ((LinkedTreeMap<String, Object>)v1.getValue()).getOrDefault("isInviteAll", false);
 			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn, isInviteAll));
 		}
 		if (instance == null) {

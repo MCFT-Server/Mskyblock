@@ -38,7 +38,7 @@ public class SkyblockGenerator extends Generator {
 
 	@Override
 	public void generateChunk(int chunkX, int chunkZ) {
-		if (chunkX == 0 && chunkZ % 20 == 0) {
+		if (chunkX % 20 == 0 && chunkZ % 20 == 0) {
 			BaseFullChunk chunk = level.getChunk(chunkX, chunkZ);
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
