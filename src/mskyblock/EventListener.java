@@ -30,15 +30,6 @@ public class EventListener implements Listener {
 		return plugin.getDB();
 	}
 
-	@EventHandler
-	public void onChunkLoad(ChunkLoadEvent event) {
-		for (int x = 0; x < 16; x++) {
-			for (int z = 0; z < 16; z++) {
-				event.getChunk().setBiomeColor(x, z, 133, 188, 86);
-			}
-		}
-	}
-
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (command.getName().toLowerCase().equals(getDB().get("commands-skyblock"))) {
 			if (args.length < 1) {
