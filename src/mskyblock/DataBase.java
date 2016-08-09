@@ -40,7 +40,7 @@ public class DataBase {
 			int num = Skyblock.getInt((double)((LinkedTreeMap<String, Object>)v1.getValue()).get("num"));
 			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1.getValue()).get("spawn"));
 			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1.getValue()).get("invites");
-			boolean isInviteAll = (boolean) ((LinkedTreeMap<String, Object>)v1.getValue()).getOrDefault("isInviteAll", false);
+			boolean isInviteAll = (boolean) ((LinkedTreeMap<String, Object>)v1.getValue()).getOrDefault("inviteAll", false);
 			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn, isInviteAll));
 		}
 		if (instance == null) {
