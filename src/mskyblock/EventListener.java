@@ -296,7 +296,7 @@ public class EventListener implements Listener {
 		if (player.isOp())
 			return;
 		Skyblock skyblock = Skyblock.getSkyblockByPos(event.getBlock());
-		if (!event.getBlock().getLevel().getName().equals("skyblock")) {
+		if (!event.getBlock().getLevel().getName().startsWith("skyblock")) {
 			return;
 		}
 		if (skyblock == null || (!skyblock.isOwner(player) && !skyblock.isShare(player))) {
