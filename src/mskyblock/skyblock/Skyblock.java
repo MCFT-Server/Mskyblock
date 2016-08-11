@@ -130,6 +130,7 @@ public class Skyblock extends Area {
 		this.num = num;
 		this.spawn = spawn;
 		this.invites = invites;
+		this.inviteAll = isInviteAll;
 	}
 
 	public void remove() {
