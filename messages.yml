@@ -1,6 +1,6 @@
-m_version: 2
+m_version: 3
 
-default-language: kor
+default-language: eng
 
 kor-default-prefix: "[스카이블럭]"
 
@@ -17,7 +17,7 @@ kor-commands-exit: "퇴장"
 
 kor-commands-skyblock-description: "섬 관련 명령어"
 kor-commands-skyblock-usage: "/섬 <이동|삭제|공유|초대|스폰|추방|목록|퇴장|전체초대>"
-kor-commands-move-usage: "/섬 이동 <플레이어>"
+kor-commands-move-usage: "/섬 이동 [플레이어]"
 kor-commands-remove-usage: "/섬 삭제 [플레이어]"
 kor-commands-share-usage: "/섬 공유 <플레이어>"
 kor-commands-invite-usage: "/섬 초대 <플레이어>"
@@ -49,3 +49,52 @@ kor-player-not-share: "그 플레이어는 공유되거나 초대되지 않았�
 kor-you-dont-have-share: "당신은 공유받은 스카이블럭이 없습니다."
 kor-already-shared: "공유받은 스카이블럭이 있으면 스카이블럭을 생성할 수 없습니다."
 kor-with-player: "당신은 %player의 스카이블럭을 공유받고 있습니다."
+
+
+eng-default-prefix: "[Skyblock]"
+
+eng-commands-skyblock: "skyblock"
+eng-commands-move: "move"
+eng-commands-remove: "remove"
+eng-commands-share: "share"
+eng-commands-invite: "invite"
+eng-commands-inviteall: "inviteall"
+eng-commands-spawn: "spawn"
+eng-commands-expulsion: "expulsion"
+eng-commands-list: "list"
+eng-commands-exit: "exit"
+
+eng-commands-skyblock-description: "Skyblock command"
+eng-commands-skyblock-usage: "/skyblock <move|remove|share|invite|spawn|expulsion|list|exit|inviteall>"
+eng-commands-move-usage: "/skyblock move [player]"
+eng-commands-remove-usage: "/skyblock remove [player]"
+eng-commands-share-usage: "/skyblock share <player>"
+eng-commands-invite-usage: "/skyblock invite <player>"
+eng-commands-expulsion-usage: "/skyblock expulsion <player>"
+eng-commands-list-usage: "/skyblock list <share|invite>"
+
+eng-make-skyblock-success-1: "Your skyblock is created"
+eng-make-skyblock-success-2: "You can move your skyblock by </skyblock move> "
+eng-move-success: "Move %player's skyblock"
+eng-remove-success: "It was deleted your skyblock."
+eng-remove-player-skyblock: "It was deleted %player's skyblock."
+eng-share-skyblock: "You shared your skyblock to the %player."
+eng-invite-skyblock: "You invited your skyblock to the %player."
+eng-set-spawn: "We have set your current position to the skyblock's spawn"
+eng-expulsion-player: "You've banished %player from your skyblock."
+eng-exit-skyblock: "You came out in all of Sky blocks that have been shared."
+eng-sharelist: "Shared list: "
+eng-invitelist: "Invited list: "
+eng-invite-all: "Now all player can go to your skyblock"
+eng-cancel-invite-all: "Now only invited players can go to your skyblock."
+
+eng-dont-have-skyblock: "You don't have skyblock."
+eng-player-dont-have-skyblock: "%player doesn't have skyblock"
+eng-not-invited: "You didn't invite the skyblock."
+eng-already-have-skyblock: "That player already has skyblock."
+eng-already-shared-skyblock: "That player already shared skyblock."
+eng-not-your-skyblock: "Here is not your skyblock."
+eng-player-not-share: "That player don't invited or shared"
+eng-you-dont-have-share: "You don't have shared skyblock."
+eng-already-shared: "If you have shared skyblock, you can create it"
+eng-with-player: "You are shared skyblock by %player."

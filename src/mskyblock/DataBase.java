@@ -19,7 +19,7 @@ public class DataBase {
 	public Main plugin;
 	public Config messages, config;
 	public LinkedHashMap<String, Object> skyblockDB, count;
-	public static final int m_version = 2;
+	public static final int m_version = 3;
 	private static DataBase instance;
 	
 	@SuppressWarnings("unchecked")
