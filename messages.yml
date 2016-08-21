@@ -100,7 +100,7 @@ eng-already-shared: "If you have shared skyblock, you can create it"
 eng-with-player: "You are shared skyblock by %player."
 
 
-jpn-default-prefix: "[]"
+jpn-default-prefix: "[スカイブロック]"
 
 jpn-commands-skyblock: "skyblock"
 jpn-commands-move: "move"
@@ -115,8 +115,8 @@ jpn-commands-exit: "exit"
 
 jpn-commands-skyblock-description: "Skyblock command"
 jpn-commands-skyblock-usage: "/skyblock <move|remove|share|invite|spawn|expulsion|list|exit|inviteall>"
-jpn-commands-move-usage: "/skyblock move [player]"
-jpn-commands-remove-usage: "/skyblock remove [player]"
+jpn-commands-move-usage: "/skyblock move [プレイヤー名]"
+jpn-commands-remove-usage: "/skyblock remove [プレイヤー名]"
 jpn-commands-share-usage: "/skyblock share <player>"
 jpn-commands-invite-usage: "/skyblock invite <player>"
 jpn-commands-expulsion-usage: "/skyblock expulsion <player>"
