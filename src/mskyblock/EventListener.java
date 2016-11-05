@@ -12,6 +12,8 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
+import cn.nukkit.event.entity.EntityDamageByEntityEvent;
+import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.event.level.ChunkLoadEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.lang.TranslationContainer;
@@ -254,6 +256,19 @@ public class EventListener implements Listener {
 					getDB().message(sender, getDB().get("invite-all"));
 				}
 				return true;
+			} else if (args[0].toLowerCase().equals(getDB().get("commands-pvp"))) { 
+				if (!(sender instanceof Player)) {
+					sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.ingame"));
+					return true;
+				}
+				Skyblock skyblock = Skyblock.getSkyblock(sender.getName());
+				if (skyblock == null) {
+					getDB().alert(sender, getDB().get("dont-have-skyblock"));
+					return true;
+				}
+				skyblock.setPvp(!skyblock.getPvp());
+				getDB().message(sender, skyblock.getPvp() ? getDB().get("setpvp-true") : getDB().get("setpvp-false"));
+				return true;
 			} else {
 				getDB().alert(sender, getDB().get("commands-skyblock-usage"));
 				return true;
@@ -301,6 +316,17 @@ public class EventListener implements Listener {
 		}
 		if (skyblock == null || (!skyblock.isOwner(player) && !skyblock.isShare(player))) {
 			event.setCancelled();
+		}
+	}
+	
+	@EventHandler
+	public void onPvp(EntityDamageEvent event) {
+		if (event instanceof EntityDamageByEntityEvent) {
+			Skyblock skyblock = Skyblock.getSkyblockByPos(event.getEntity().getPosition());
+			if (skyblock == null) return;
+			if (!skyblock.getPvp()) {
+				event.setCancelled();
+			}
 		}
 	}
 }

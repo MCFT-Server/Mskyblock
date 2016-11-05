@@ -19,7 +19,7 @@ public class DataBase {
 	public Main plugin;
 	public Config messages, config;
 	public LinkedHashMap<String, Object> skyblockDB, count;
-	public static final int m_version = 3;
+	public static final int m_version = 4;
 	private static DataBase instance;
 	
 	@SuppressWarnings("unchecked")
@@ -41,7 +41,8 @@ public class DataBase {
 			Position spawn = stringToPos((String)((LinkedTreeMap<String, Object>)v1.getValue()).get("spawn"));
 			LinkedTreeMap<String, Object> invites = (LinkedTreeMap<String, Object>) ((LinkedTreeMap<String, Object>)v1.getValue()).get("invites");
 			boolean isInviteAll = (boolean) ((LinkedTreeMap<String, Object>)v1.getValue()).getOrDefault("inviteAll", false);
-			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn, isInviteAll));
+			boolean pvp = (boolean) ((LinkedTreeMap<String, Object>)v1.getValue()).getOrDefault("pvp", false);
+			Skyblock.skyblocklist.put(player, new Skyblock(player, shares, invites, num, spawn, isInviteAll, pvp));
 		}
 		if (instance == null) {
 			instance = this;

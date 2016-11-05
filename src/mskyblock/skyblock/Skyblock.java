@@ -20,7 +20,7 @@ public class Skyblock extends Area {
 	private LinkedTreeMap<String, Object> shares, invites;
 	private int num;
 	private Position spawn;
-	private boolean inviteAll;
+	private boolean inviteAll, pvp;
 
 	public static HashMap<String, Skyblock> skyblocklist;
 	public static Main plugin;
@@ -44,6 +44,7 @@ public class Skyblock extends Area {
 					put("invites", skyblock.invites);
 					put("spawn", posToString(skyblock.spawn));
 					put("inviteAll", skyblock.inviteAll);
+					put("pvp", skyblock.pvp);
 				}
 			});
 		}
@@ -116,14 +117,14 @@ public class Skyblock extends Area {
 	}
 
 	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num) {
-		this(player, shares, new LinkedTreeMap<String, Object>(), num, getOriginalSpawn(num), true);
+		this(player, shares, new LinkedTreeMap<String, Object>(), num, getOriginalSpawn(num), true, false);
 	}
 
 	public Skyblock(String player, LinkedTreeMap<String, Object> shares, int num, boolean isInviteAll) {
-		this(player, shares, new LinkedTreeMap<String, Object>(), num, getOriginalSpawn(num), isInviteAll);
+		this(player, shares, new LinkedTreeMap<String, Object>(), num, getOriginalSpawn(num), isInviteAll, false);
 	}
 
-	public Skyblock(String player, LinkedTreeMap<String, Object> shares, LinkedTreeMap<String, Object> invites, int num, Position spawn, boolean isInviteAll) {
+	public Skyblock(String player, LinkedTreeMap<String, Object> shares, LinkedTreeMap<String, Object> invites, int num, Position spawn, boolean isInviteAll, boolean pvp) {
 		super(getOriginalSpawn(num).add(-75, 0, -75), getOriginalSpawn(num).add(+75, 0, +75));
 		this.owner = player;
 		this.shares = shares;
@@ -131,6 +132,15 @@ public class Skyblock extends Area {
 		this.spawn = spawn;
 		this.invites = invites;
 		this.inviteAll = isInviteAll;
+		this.pvp = pvp;
+	}
+	
+	public void setPvp(boolean pvp) {
+		this.pvp = pvp;
+	}
+	
+	public boolean getPvp() {
+		return pvp;
 	}
 
 	public void remove() {
