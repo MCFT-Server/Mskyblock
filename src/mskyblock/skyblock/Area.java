@@ -1,14 +1,13 @@
 package mskyblock.skyblock;
 
 import cn.nukkit.level.Position;
-import mskyblock.skyblock.exception.DifferentLevelException;
 
 public class Area {
 	private Position startPos, endPos;
 	
-	public Area(Position startPos, Position endPos) throws DifferentLevelException {
+	public Area(Position startPos, Position endPos) {
 		if (startPos.getLevel() != endPos.getLevel()) {
-			throw new DifferentLevelException();
+			throw new IllegalArgumentException("different level");
 		}
 		this.startPos = startPos;
 		this.endPos = endPos;
@@ -27,23 +26,15 @@ public class Area {
 	}
 	public boolean isXinside(Position pos) {
 		double bigX, smallX;
-		bigX = (startPos.x > endPos.x) ? startPos.x : endPos.x;
-		smallX = (bigX == startPos.x) ? endPos.x : startPos.x;
-		if (pos.x < bigX && pos.x > smallX) {
-			return true;
-		} else {
-			return false;
-		}
+		bigX = Math.max(startPos.x, endPos.x);
+		smallX = Math.min(startPos.x, endPos.x);
+		return pos.x < bigX && pos.x > smallX;
 	}
 	public boolean isZinside(Position pos) {
 		double bigZ, smallZ;
-		bigZ = (startPos.z > endPos.z) ? startPos.z : endPos.z;
-		smallZ = (bigZ == startPos.z) ? endPos.z : startPos.z;
-		if (pos.z < bigZ && pos.z > smallZ) {
-			return true;
-		} else {
-			return false;
-		}
+		bigZ = Math.max(startPos.z, endPos.z);
+		smallZ = Math.min(startPos.z, endPos.z);
+		return pos.z < bigZ && pos.z > smallZ;
 	}
 	
 	public Position getStartPos() {
