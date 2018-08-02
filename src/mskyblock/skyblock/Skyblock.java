@@ -12,8 +12,8 @@ import cn.nukkit.Server;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Position;
 import mskyblock.Main;
+import mskyblock.event.SkyblockGiveEvent;
 import mskyblock.generator.SkyblockGenerator;
-import mskyblock.skyblock.exception.DifferentLevelException;
 
 public class Skyblock extends Area {
 	private String owner;
@@ -60,14 +60,23 @@ public class Skyblock extends Area {
 		return f.intValue();
 	}
 
-	public static void makeSkyblock(Player player) {
-		try {
-			plugin.getDB().count.put("count", (int) plugin.getDB().count.get("count") + 1);
-		} catch (ClassCastException e) {
-			plugin.getDB().count.put("count", getInt((double) plugin.getDB().count.get("count")) + 1);
+	public static boolean makeSkyblock(Player player) {
+		Skyblock skyblock = new Skyblock(player.getName().toLowerCase(), new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count"));
+		SkyblockGiveEvent event = new SkyblockGiveEvent(skyblock, player);
+		
+		plugin.getServer().getPluginManager().callEvent(event);
+		
+		if (event.isCancelled()) {
+			return false;
+		} else {
+			try {
+				plugin.getDB().count.put("count", (int) plugin.getDB().count.get("count") + 1);
+			} catch (ClassCastException e) {
+				plugin.getDB().count.put("count", getInt((double) plugin.getDB().count.get("count")) + 1);
+			}
+			Skyblock.skyblocklist.put(player.getName().toLowerCase(), skyblock);
+			return true;
 		}
-		Skyblock.skyblocklist.put(player.getName().toLowerCase(), new Skyblock(player.getName().toLowerCase(), 
-				new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count")));
 	}
 
 	public static Skyblock getSkyblock(String name) {

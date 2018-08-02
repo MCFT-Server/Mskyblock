@@ -14,7 +14,6 @@ import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.entity.EntityDamageByEntityEvent;
 import cn.nukkit.event.entity.EntityDamageEvent;
-import cn.nukkit.event.level.ChunkLoadEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.level.Position;
@@ -47,9 +46,10 @@ public class EventListener implements Listener {
 					return true;
 				}
 				if (!Skyblock.hasSkyblock((Player) sender)) {
-					Skyblock.makeSkyblock((Player) sender);
-					getDB().message(sender, getDB().get("make-skyblock-success-1"));
-					getDB().message(sender, getDB().get("make-skyblock-success-2"));
+					if (Skyblock.makeSkyblock((Player) sender)) {
+						getDB().message(sender, getDB().get("make-skyblock-success-1"));
+						getDB().message(sender, getDB().get("make-skyblock-success-2"));
+					}
 					return true;
 				}
 				getDB().alert(sender, getDB().get("commands-skyblock-usage"));
