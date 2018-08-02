@@ -7,7 +7,6 @@ import cn.nukkit.block.BlockSapling;
 import cn.nukkit.level.ChunkManager;
 import cn.nukkit.level.format.generic.BaseFullChunk;
 import cn.nukkit.level.generator.Generator;
-import cn.nukkit.level.generator.biome.Biome;
 import cn.nukkit.level.generator.object.tree.ObjectTree;
 import cn.nukkit.math.NukkitRandom;
 import cn.nukkit.math.Vector3;
@@ -61,11 +60,13 @@ public class SkyblockGenerator extends Generator {
 
 	@Override
 	public void populateChunk(int chunkX, int chunkZ) {
+		/*
         for (int x = 0; x < 16; x++) {
         	for (int z = 0; z < 16; z++) {
         		level.getChunk(chunkX, chunkZ).setBiomeColor(x, z, 133, 188, 86);
         	}
         }
+        */
 	}
 
 	@Override
