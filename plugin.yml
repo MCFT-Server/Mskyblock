@@ -1,6 +1,6 @@
 name: Mskyblock
 main: mskyblock.Main
-version: "2.2.0"
+version: "2.2.1"
 author: maru
 api: ["1.0.0"]
 
