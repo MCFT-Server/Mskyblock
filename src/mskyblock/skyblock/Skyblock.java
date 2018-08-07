@@ -61,7 +61,7 @@ public class Skyblock extends Area {
 	}
 
 	public static boolean makeSkyblock(Player player) {
-		Skyblock skyblock = new Skyblock(player.getName().toLowerCase(), new LinkedTreeMap<String, Object>(), (int) plugin.getDB().count.get("count"));
+		Skyblock skyblock = new Skyblock(player.getName().toLowerCase(), new LinkedTreeMap<String, Object>(), ((Number)plugin.getDB().count.get("count")).intValue());
 		SkyblockGiveEvent event = new SkyblockGiveEvent(skyblock, player);
 		
 		plugin.getServer().getPluginManager().callEvent(event);
@@ -69,11 +69,7 @@ public class Skyblock extends Area {
 		if (event.isCancelled()) {
 			return false;
 		} else {
-			try {
-				plugin.getDB().count.put("count", (int) plugin.getDB().count.get("count") + 1);
-			} catch (ClassCastException e) {
-				plugin.getDB().count.put("count", getInt((double) plugin.getDB().count.get("count")) + 1);
-			}
+			plugin.getDB().count.put("count", ((Number)plugin.getDB().count.get("count")).intValue() + 1);
 			Skyblock.skyblocklist.put(player.getName().toLowerCase(), skyblock);
 			return true;
 		}
